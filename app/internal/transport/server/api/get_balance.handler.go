@@ -36,7 +36,7 @@ func GetBalanceHandler(service s.Service) func(c *gin.Context) {
 			"success": true,
 			"message": "account found",
 			"data": gin.H{
-				"account": account.Balance,
+				"balance": account.Balance,
 			},
 		})
 
