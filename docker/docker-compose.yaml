@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     container_name: app
-    image: 34234247632/billing-service:v1.0
+    image: 34234247632/billing-service:v1.1
     networks:
       - otus-msa-hw9
     restart: always

@@ -21,7 +21,7 @@ func ChangeBalanceHandler(service service.Service) func(c *gin.Context) {
 		if err := c.BindJSON(&body); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"success": false,
-				"message": fmt.Printf("Problem with parse body of request. Error = %s", err.Error()),
+				"message": fmt.Sprintf("Problem with parse body of request. Error = %s", err.Error()),
 				"data":    gin.H{},
 			})
 			return
@@ -41,7 +41,7 @@ func ChangeBalanceHandler(service service.Service) func(c *gin.Context) {
 		if err = service.ChangeBalance(account); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"success": false,
-				"message": fmt.Printf("Problem with change balance. Error = %s", err.Error()),
+				"message": fmt.Sprintf("Problem with change balance. Error = %s", err.Error()),
 				"data":    gin.H{},
 			})
 			return
