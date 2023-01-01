@@ -10,7 +10,7 @@ import (
 // GetBalanceHandler handles request to get order by ID
 func GetBalanceHandler(service s.Service) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		id := c.Param("user_id")
+		id := c.Param("userId")
 
 		userId, err := uuid.Parse(id)
 		if err != nil {
@@ -26,7 +26,7 @@ func GetBalanceHandler(service s.Service) func(c *gin.Context) {
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{
 				"success": false,
-				"message": "payment not found",
+				"message": "account not found",
 				"data":    gin.H{},
 			})
 			return

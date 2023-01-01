@@ -25,7 +25,7 @@ func (s *Service) CreateAccount(userId uuid.UUID) error {
 
 // GetAccount return current balance for user
 func (s *Service) GetAccount(userId uuid.UUID) (account *Account, err error) {
-	err = s.db.Model(account).Where(userId).First(&account).Error
+	err = s.db.Model(account).Where("owner_id = ?", userId).First(&account).Error
 	return
 }
 

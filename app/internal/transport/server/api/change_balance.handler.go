@@ -12,8 +12,7 @@ import (
 func ChangeBalanceHandler(service service.Service) func(c *gin.Context) {
 	// Request body structure
 	type Body struct {
-		UserID uuid.UUID `json:"user_id"`
-		Amount int       `json:"amount"`
+		Amount int `json:"amount"`
 	}
 
 	return func(c *gin.Context) {
@@ -27,11 +26,32 @@ func ChangeBalanceHandler(service service.Service) func(c *gin.Context) {
 			return
 		}
 
-		account, err := service.GetAccount(body.UserID)
+		id := c.Param("userId")
+
+		userId, err := uuid.Parse(id)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"success": false,
+				"message": "user id can't parse",
+				"data":    gin.H{},
+			})
+			return
+		}
+
+		account, err := service.GetAccount(userId)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{
 				"success": false,
-				"message": "payment not found",
+				"message": "account not found",
+				"data":    gin.H{},
+			})
+			return
+		}
+
+		if account.Balance+body.Amount < 0 {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"success": false,
+				"message": "There are not enough funds on the balance sheet",
 				"data":    gin.H{},
 			})
 			return
@@ -51,7 +71,7 @@ func ChangeBalanceHandler(service service.Service) func(c *gin.Context) {
 			"success": true,
 			"message": "",
 			"data": gin.H{
-				"account": account.Balance,
+				"balance": account.Balance,
 			},
 		})
 	}
